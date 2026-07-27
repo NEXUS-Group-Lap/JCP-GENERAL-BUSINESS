@@ -113,7 +113,9 @@ nav a:hover { color: var(--red); }
 .hero-image {
   position: absolute;
   inset: 0;
-  background: url("/images/jcp-excavator.jpg") center 55% / cover no-repeat;
+  background-position: center 55%;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .hero-shade {
   position: absolute;

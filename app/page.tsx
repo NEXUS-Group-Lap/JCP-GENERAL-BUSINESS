@@ -1,7 +1,14 @@
 "use client";
 
+export const dynamic = "force-static";
+
 import { useState } from "react";
 import { ServiceAreaMap } from "@/components/service-area-map";
+
+// Set at build time via NEXT_PUBLIC_BASE_PATH so raw asset URLs (which Next
+// does not rewrite automatically) still resolve under a basePath, e.g. when
+// this site is exported for floresnexus.cards/JCP.
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 const copy = {
   en: {
@@ -178,7 +185,12 @@ export default function Home() {
       </header>
 
       <section className="hero">
-        <div className="hero-image" role="img" aria-label="JCP excavator ready for land work" />
+        <div
+          className="hero-image"
+          role="img"
+          aria-label="JCP excavator ready for land work"
+          style={{ backgroundImage: `url(${basePath}/images/jcp-excavator.jpg)` }}
+        />
         <div className="hero-shade" />
         <div className="hero-accent" />
         <div className="hero-content">
@@ -245,7 +257,7 @@ export default function Home() {
         <div className="equipment-photo">
           {/* The source is a local, compression-ready company photo. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/jcp-skid-steer.jpg" alt="JCP Kubota SVL75-2 compact track loader" />
+          <img src={`${basePath}/images/jcp-skid-steer.jpg`} alt="JCP Kubota SVL75-2 compact track loader" />
           <div className="photo-label">JCP <span>GENERAL BUSINESS</span></div>
         </div>
         <div className="equipment-copy">
