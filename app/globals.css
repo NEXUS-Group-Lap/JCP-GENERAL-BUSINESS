@@ -11,6 +11,12 @@
   --white: #ffffff;
 }
 
+@theme inline {
+  --color-background: var(--cream);
+  --color-foreground: var(--ink);
+  --color-muted-foreground: var(--gray);
+}
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
@@ -53,23 +59,45 @@ nav a {
 }
 nav a:hover { color: var(--red); }
 .language {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font: 800 13px/1 "Montserrat", Arial, sans-serif;
+}
+.language button {
   border: 0;
   background: transparent;
-  color: var(--maroon-soft);
+  color: #c9beb8;
   cursor: pointer;
-  font-weight: 800;
+  font: inherit;
+  padding: 6px 2px;
+  letter-spacing: .04em;
 }
+.language button:hover { color: var(--maroon-soft); }
+.language button.lang-active {
+  color: var(--red);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.language span { color: #ddd3cc; }
 .header-call {
   background: var(--maroon);
   color: var(--white);
-  padding: 17px 22px;
-  font: 800 14px/1.1 "Montserrat", Arial, sans-serif;
+  padding: 10px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.header-call a {
+  display: block;
+  color: var(--white);
+  font: 800 13px/1.1 "Montserrat", Arial, sans-serif;
 }
 .header-call span {
   display: block;
   color: #e8b9af;
   font-size: 9px;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
   text-transform: uppercase;
   letter-spacing: .12em;
 }
@@ -393,57 +421,75 @@ h2 {
   color: #d9d1cc;
   font-size: 12px;
 }
-.area-route {
+.florida-map-frame {
   min-height: 440px;
-  padding: 54px;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   background:
     radial-gradient(circle at 65% 40%, rgba(224,62,45,.2), transparent 28%),
     linear-gradient(140deg, #35201b, #211a17);
   border: 1px solid #55443e;
   overflow: hidden;
 }
-.area-route::before {
-  content: "";
-  position: absolute;
-  inset: -30%;
-  background: repeating-linear-gradient(118deg, transparent 0 58px, rgba(255,255,255,.025) 59px 60px);
+.florida-map { position: absolute; inset: 0; }
+.florida-map .maplibregl-canvas {
+  filter: sepia(.45) hue-rotate(320deg) saturate(1.7) brightness(.68) contrast(1.08);
 }
-.route-start, .route-end {
-  z-index: 1;
-  font: 800 15px/1 "Montserrat", Arial, sans-serif;
-  text-transform: uppercase;
+.florida-map .maplibregl-ctrl-attrib {
+  background: rgba(15,12,11,.55) !important;
+  color: #cfc6c1 !important;
 }
-.route-end { align-self: flex-end; }
-.route-line {
-  width: 4px;
-  height: 240px;
-  margin: -10px auto;
-  position: relative;
-  background: linear-gradient(var(--red), #f08b7e);
-  transform: rotate(25deg);
-}
-.route-line i {
+.florida-map .maplibregl-ctrl-attrib a { color: #cfc6c1 !important; }
+.florida-map .maplibregl-ctrl-bottom-right { font-size: 9px; }
+
+.map-pin {
+  display: block;
   width: 12px;
   height: 12px;
   border-radius: 50%;
   border: 3px solid var(--red);
   background: var(--maroon);
-  position: absolute;
-  left: -4px;
+  box-shadow: 0 0 0 3px rgba(224,62,45,.18);
 }
-.route-line i:nth-child(1) { top: 0; }
-.route-line i:nth-child(2) { top: 25%; }
-.route-line i:nth-child(3) { top: 50%; }
-.route-line i:nth-child(4) { top: 75%; }
-.route-line i:nth-child(5) { bottom: 0; }
-.area-route strong {
+.map-pin-hq {
+  width: 16px;
+  height: 16px;
+  background: var(--red);
+  border-color: var(--white);
+}
+.map-pin-label {
+  color: #f2ece7;
+  font: 800 10px/1 "Montserrat", Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  text-shadow: 0 1px 3px rgba(0,0,0,.6);
+}
+
+.reach-wave {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border-radius: 50%;
+  background: radial-gradient(circle, transparent 52%, rgba(224,62,45,.65) 60%, transparent 74%);
+  animation: reach-wave 3s cubic-bezier(.25,0,.4,1) infinite;
+  pointer-events: none;
+}
+.reach-wave:nth-child(2) { animation-delay: 1s; }
+.reach-wave:nth-child(3) { animation-delay: 2s; }
+
+@keyframes reach-wave {
+  0% { transform: scale(.6); opacity: .95; }
+  100% { transform: scale(8); opacity: 0; }
+}
+
+.florida-map-watermark {
   position: absolute;
   right: -22px;
-  bottom: 45px;
+  bottom: 12px;
+  z-index: 1;
+  pointer-events: none;
   color: rgba(255,255,255,.045);
   font: 900 110px/1 "Montserrat", Arial, sans-serif;
 }
@@ -506,7 +552,7 @@ footer p:nth-child(2) { max-width: 430px; }
   .equipment-photo { min-height: 520px; }
   .about { grid-template-columns: 1fr; gap: 55px; }
   .service-area, .contact { grid-template-columns: 1fr; gap: 55px; }
-  .area-route { min-height: 360px; }
+  .florida-map-frame { min-height: 360px; }
   footer { grid-template-columns: 1fr 1fr; }
   footer p:nth-child(2) { display: none; }
 }
@@ -545,7 +591,6 @@ footer p:nth-child(2) { max-width: 430px; }
   .client-types article { min-height: 260px; }
   .client-types article + article { margin: -1px 0 0; }
   .service-area, .contact { padding: 85px 20px; }
-  .area-route { padding: 36px 28px; }
   .contact { gap: 35px; }
   footer { grid-template-columns: 1fr; padding-bottom: 100px; gap: 20px; }
   footer p:last-child { margin: 0; }

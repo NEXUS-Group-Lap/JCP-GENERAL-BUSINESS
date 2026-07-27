@@ -51,6 +51,13 @@ export default defineConfig(async () => {
         ? { watch: { useFsEvents: false, usePolling: true } }
         : {}),
     },
+    // maplibre-gl bundles its own web worker; esbuild's dep pre-bundling
+    // produces a worker chunk Vite's dev server fails to serve (404s on
+    // maplibre-gl-worker.mjs), so the map never finishes loading. Excluding
+    // it from pre-bundling lets Vite handle the worker import natively.
+    optimizeDeps: {
+      exclude: ["maplibre-gl"],
+    },
     plugins: [
       vinext(),
       sites(),

@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { ServiceAreaMap } from "@/components/service-area-map";
 
 const copy = {
   en: {
-    nav: ["Services", "Equipment", "About", "Service Area"],
+    nav: ["Services", "Contractors", "Equipment", "About", "Service Area", "Contact"],
     eyebrow: "Land clearing • Site preparation • Hauling",
     title: "The equipment and experience to move your project forward.",
     body: "Residential and industrial land services across Southwest Florida, from Port Charlotte to Marco Island.",
@@ -24,6 +25,19 @@ const copy = {
       ["Topsoil", "Topsoil handling and placement for property, landscape, and site preparation needs."],
       ["Rock Fill", "Rock fill placement for stable access areas, pads, and project preparation."],
       ["Dirt & Debris Hauling", "Dumpster-assisted removal of dirt, soil, rock, and job-site material. Dumpsters are not rented separately."],
+    ],
+    contractorsEyebrow: "For contractors",
+    contractorsTitle: "Excavation and site prep that keeps your schedule on track.",
+    contractorsIntro: "We handle the excavation and ground preparation your crew needs to start work. Design, engineering, and construction of footings and foundations remain with your contractor and engineer.",
+    contractorsList: [
+      ["Excavation and Trenching", "Excavation and trenching for construction and utility work."],
+      ["Plumbing Excavation Support", "Excavation support to open and prepare trenches for plumbing contractors."],
+      ["Utility Line Trenching", "Trenching for water, sewer, electrical, and other utility lines."],
+      ["Footing Excavation and Preparation", "Excavation and ground preparation for footings, to the lines and grades your contractor specifies."],
+      ["Foundation Area Preparation", "Excavation and site preparation for foundation work performed by your contractor."],
+      ["Concrete Area Preparation", "Grading and preparation of the area before concrete pours."],
+      ["Dirt and Debris Removal", "Removal of excess dirt, spoil, and job-site debris."],
+      ["Contractor Site Support", "On-site equipment and labor support to keep contractor schedules moving."],
     ],
     equipmentEyebrow: "Company equipment",
     equipmentTitle: "Ready to work—not waiting on a rental.",
@@ -51,7 +65,7 @@ const copy = {
     footer: "Land services for residential and industrial projects across Southwest Florida.",
   },
   es: {
-    nav: ["Servicios", "Equipos", "Nosotros", "Área de servicio"],
+    nav: ["Servicios", "Contratistas", "Equipos", "Nosotros", "Área de servicio", "Contacto"],
     eyebrow: "Limpieza de terrenos • Preparación • Transporte",
     title: "El equipo y la experiencia para hacer avanzar su proyecto.",
     body: "Servicios residenciales e industriales en el suroeste de Florida, desde Port Charlotte hasta Marco Island.",
@@ -71,6 +85,19 @@ const copy = {
       ["Tierra vegetal", "Manejo y colocación de topsoil para propiedades, jardines y preparación de sitios."],
       ["Relleno de piedra", "Colocación de rock fill para áreas de acceso, bases y preparación de proyectos."],
       ["Retiro de tierra y materiales", "Retiro con dumpsters de tierra, piedra y materiales del área de trabajo. Los dumpsters no se alquilan por separado."],
+    ],
+    contractorsEyebrow: "Para contratistas",
+    contractorsTitle: "Excavación y preparación de sitio para mantener su cronograma al día.",
+    contractorsIntro: "Nos encargamos de la excavación y preparación del terreno que su equipo necesita para comenzar el trabajo. El diseño, la ingeniería y la construcción de footings y fundaciones siguen siendo responsabilidad de su contratista e ingeniero.",
+    contractorsList: [
+      ["Excavación y Zanjas", "Excavación y zanjas para trabajos de construcción y de servicios."],
+      ["Excavación para Trabajos de Plomería", "Apoyo de excavación para abrir y preparar zanjas para contratistas de plomería."],
+      ["Zanjas para Líneas de Servicios", "Zanjas para líneas de agua, drenaje, eléctricas y otros servicios."],
+      ["Excavación y Preparación para Footings", "Excavación y preparación del terreno para footings, según las líneas y niveles que indique su contratista."],
+      ["Preparación de Áreas para Fundaciones", "Excavación y preparación del sitio para el trabajo de fundación que realiza su contratista."],
+      ["Preparación de Áreas para Concreto", "Nivelación y preparación del área antes de vaciar concreto."],
+      ["Retiro de Tierra y Materiales", "Retiro de tierra sobrante, escombros y materiales del sitio de trabajo."],
+      ["Apoyo en Obra para Contratistas", "Apoyo con maquinaria y personal en el sitio para mantener el cronograma del contratista."],
     ],
     equipmentEyebrow: "Equipo de la compañía",
     equipmentTitle: "Listos para trabajar, sin depender del alquiler de maquinaria.",
@@ -102,6 +129,8 @@ const copy = {
 export default function Home() {
   const [language, setLanguage] = useState<"en" | "es">("en");
   const t = copy[language];
+  const primaryPhoneTel = language === "es" ? "+12392509480" : "+12392349918";
+  const primaryPhoneDisplay = language === "es" ? "(239) 250-9480" : "(239) 234-9918";
 
   return (
     <main>
@@ -112,22 +141,40 @@ export default function Home() {
         </a>
         <nav aria-label="Main navigation">
           {t.nav.map((item, index) => (
-            <a key={item} href={["#services", "#equipment", "#about", "#area"][index]}>
+            <a key={item} href={["#services", "#contractors", "#equipment", "#about", "#area", "#contact"][index]}>
               {item}
             </a>
           ))}
         </nav>
-        <button
-          className="language"
-          onClick={() => setLanguage(language === "en" ? "es" : "en")}
-          aria-label={`Switch to ${t.label}`}
-        >
-          {t.label}
-        </button>
-        <a className="header-call" href="tel:+12392349918">
-          <span>English</span>
-          (239) 234-9918
-        </a>
+        <div className="language" role="group" aria-label="Language / Idioma">
+          <button
+            type="button"
+            className={language === "en" ? "lang-active" : undefined}
+            onClick={() => setLanguage("en")}
+            aria-pressed={language === "en"}
+          >
+            EN
+          </button>
+          <span aria-hidden="true">/</span>
+          <button
+            type="button"
+            className={language === "es" ? "lang-active" : undefined}
+            onClick={() => setLanguage("es")}
+            aria-pressed={language === "es"}
+          >
+            ES
+          </button>
+        </div>
+        <div className="header-call">
+          <a href="tel:+12392509480">
+            <span>Español</span>
+            (239) 250-9480
+          </a>
+          <a href="tel:+12392349918">
+            <span>English</span>
+            (239) 234-9918
+          </a>
+        </div>
       </header>
 
       <section className="hero">
@@ -139,7 +186,7 @@ export default function Home() {
           <h1>{t.title}</h1>
           <p className="hero-copy">{t.body}</p>
           <div className="hero-actions">
-            <a className="button button-primary" href="tel:+12392509480">
+            <a className="button button-primary" href={`tel:${primaryPhoneTel}`}>
               {t.estimate}
             </a>
             <a className="button button-ghost" href="#services">
@@ -177,6 +224,23 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="section services contractors" id="contractors">
+        <div className="section-heading">
+          <p className="section-eyebrow">{t.contractorsEyebrow}</p>
+          <h2>{t.contractorsTitle}</h2>
+          <p>{t.contractorsIntro}</p>
+        </div>
+        <div className="service-grid">
+          {t.contractorsList.map(([title, description], index) => (
+            <article className="service-card" key={title}>
+              <span>0{index + 1}</span>
+              <h3>{title}</h3>
+              <p>{description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="equipment" id="equipment">
         <div className="equipment-photo">
           {/* The source is a local, compression-ready company photo. */}
@@ -191,7 +255,7 @@ export default function Home() {
           <ul>
             {t.equipmentItems.map((item) => <li key={item}>{item}</li>)}
           </ul>
-          <a className="text-link" href="tel:+12392349918">{t.finalCta} →</a>
+          <a className="text-link" href={`tel:${primaryPhoneTel}`}>{t.finalCta} →</a>
         </div>
       </section>
 
@@ -224,12 +288,7 @@ export default function Home() {
             {t.cities.map((city) => <span key={city}>{city}</span>)}
           </div>
         </div>
-        <div className="area-route" aria-hidden="true">
-          <span className="route-start">Port Charlotte</span>
-          <div className="route-line"><i /><i /><i /><i /><i /></div>
-          <span className="route-end">Marco Island</span>
-          <strong>SWFL</strong>
-        </div>
+        <ServiceAreaMap />
       </section>
 
       <section className="contact" id="contact">
@@ -263,8 +322,10 @@ export default function Home() {
         <p>© 2026 JCP General Business I Corp.</p>
       </footer>
 
-      <a className="mobile-call" href="tel:+12392509480">
-        {language === "en" ? "Call for a free estimate" : "Llame para un estimado gratis"}
+      <a className="mobile-call" href={`tel:${primaryPhoneTel}`}>
+        {language === "en"
+          ? `Call ${primaryPhoneDisplay} for a free estimate`
+          : `Llame al ${primaryPhoneDisplay} para un estimado gratis`}
       </a>
     </main>
   );
