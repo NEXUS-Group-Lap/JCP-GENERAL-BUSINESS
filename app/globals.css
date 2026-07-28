@@ -542,6 +542,8 @@ footer {
 }
 .footer-brand .brand-name { color: white; }
 footer p:nth-child(2) { max-width: 430px; }
+.footer-credit { color: #958d88; text-decoration: underline; text-underline-offset: 2px; }
+.footer-credit:hover { color: white; }
 
 @media (max-width: 950px) {
   .site-header { grid-template-columns: 1fr auto auto; min-height: 76px; gap: 14px; }

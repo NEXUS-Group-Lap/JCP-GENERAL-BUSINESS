@@ -70,6 +70,7 @@ const copy = {
     address: "3520 34th Ave SE, Naples, FL 34117",
     finalCta: "Call for a Free Estimate",
     footer: "Land services for residential and industrial projects across Southwest Florida.",
+    poweredBy: "Powered by",
   },
   es: {
     nav: ["Servicios", "Contratistas", "Equipos", "Nosotros", "Área de servicio", "Contacto"],
@@ -130,6 +131,7 @@ const copy = {
     address: "3520 34th Ave SE, Naples, FL 34117",
     finalCta: "Llamar para un estimado gratis",
     footer: "Servicios residenciales e industriales en todo el suroeste de Florida.",
+    poweredBy: "Sitio desarrollado por",
   },
 };
 
@@ -331,7 +333,14 @@ export default function Home() {
           <span className="brand-name">GENERAL BUSINESS</span>
         </a>
         <p>{t.footer}</p>
-        <p>© 2026 JCP General Business I Corp.</p>
+        <p>
+          © 2026 JCP General Business I Corp.
+          <br />
+          {t.poweredBy}{" "}
+          <a className="footer-credit" href="https://floresnexus.com" target="_blank" rel="noreferrer">
+            Flores Nexus
+          </a>
+        </p>
       </footer>
 
       <a className="mobile-call" href={`tel:${primaryPhoneTel}`}>
