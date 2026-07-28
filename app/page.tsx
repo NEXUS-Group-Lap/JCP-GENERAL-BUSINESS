@@ -9,24 +9,25 @@ import { useState } from "react";
 // this site is exported for floresnexus.cards/JCP.
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
-// Service-area markers, positioned as a fixed pixel offset from the map
-// center rather than with a live map instance. The previous MapLibre GL
-// map rendered blank/gray on mobile (WebGL/worker loading is fragile), so
-// this overlays plain CSS dots on the Google Maps iframe below instead —
-// no WebGL, no worker, nothing that can fail to load. The offsets are
-// precomputed Web Mercator pixel deltas (relative to the iframe's center
-// query "26.51,-81.86" at its z=9) and are constant regardless of the
-// container's on-screen size, since they're applied via calc(50% + Npx).
+// Service-area markers, overlaid on a static map image (see
+// public/images/service-area-map.jpg — a Southwest Florida crop centered on
+// the same 26.51,-81.86 point at zoom 9). A live embed (first MapLibre GL,
+// then a Google Maps iframe) kept failing to render reliably, so the map is
+// now just an image with no runtime map dependency at all. Marker positions
+// are percentages of the image's own dimensions (precomputed from the same
+// Web Mercator projection used to crop the image), which stay correct at
+// any container size as long as the frame keeps the image's 1:1 aspect
+// ratio — see .florida-map-frame in globals.css.
 const serviceHubs = [
-  { id: "port-charlotte", name: "Port Charlotte", dx: -84, dy: -190.2, label: true },
-  { id: "punta-gorda", name: "Punta Gorda", dx: -67.5, dy: -171.1 },
-  { id: "cape-coral", name: "Cape Coral", dx: -32.6, dy: -21.5 },
-  { id: "fort-myers", name: "Fort Myers", dx: -4.5, dy: -53.2 },
-  { id: "lehigh-acres", name: "Lehigh Acres", dx: 85.2, dy: -47.1 },
-  { id: "estero", name: "Estero", dx: 18.5, dy: 30.5 },
-  { id: "bonita-springs", name: "Bonita Springs", dx: 29.6, dy: 69.2 },
-  { id: "naples", name: "Naples · HQ", dx: 23.7, dy: 149.5, hq: true, label: true },
-  { id: "marco-island", name: "Marco Island", dx: 41.9, dy: 230.9, label: true },
+  { id: "port-charlotte", name: "Port Charlotte", left: 35.01, top: 16.04, label: true },
+  { id: "punta-gorda", name: "Punta Gorda", left: 37.95, top: 19.44 },
+  { id: "cape-coral", name: "Cape Coral", left: 44.18, top: 46.16 },
+  { id: "fort-myers", name: "Fort Myers", left: 49.2, top: 40.51 },
+  { id: "lehigh-acres", name: "Lehigh Acres", left: 65.22, top: 41.6 },
+  { id: "estero", name: "Estero", left: 53.3, top: 55.44 },
+  { id: "bonita-springs", name: "Bonita Springs", left: 55.29, top: 62.36 },
+  { id: "naples", name: "Naples · HQ", left: 54.24, top: 76.69, hq: true, label: true },
+  { id: "marco-island", name: "Marco Island", left: 57.49, top: 91.22, label: true },
 ] as const;
 
 const copy = {
@@ -322,17 +323,17 @@ export default function Home() {
           </div>
         </div>
         <div className="florida-map-frame">
-          <iframe
+          <img
             className="florida-map"
-            src="https://maps.google.com/maps?q=26.51,-81.86&z=9&output=embed"
-            title="Southwest Florida service area map"
+            src={`${basePath}/images/service-area-map.jpg`}
+            alt="Map of the Southwest Florida service area"
             loading="lazy"
           />
           {serviceHubs.map((hub) => (
             <div
               key={hub.id}
               className="map-marker"
-              style={{ left: `calc(50% + ${hub.dx}px)`, top: `calc(50% + ${hub.dy}px)` }}
+              style={{ left: `${hub.left}%`, top: `${hub.top}%` }}
             >
               {hub.hq && (
                 <>
