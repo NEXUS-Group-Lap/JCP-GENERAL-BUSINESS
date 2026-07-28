@@ -451,6 +451,61 @@ h2 {
   font: 900 110px/1 "Montserrat", Arial, sans-serif;
 }
 
+.map-marker {
+  position: absolute;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.map-pin {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 3px solid var(--red);
+  background: var(--maroon);
+  box-shadow: 0 0 0 3px rgba(224,62,45,.18);
+}
+.map-pin-hq {
+  width: 16px;
+  height: 16px;
+  background: var(--red);
+  border-color: var(--white);
+}
+.map-pin-label {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  color: #f2ece7;
+  font: 800 10px/1 "Montserrat", Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  text-shadow: 0 1px 3px rgba(0,0,0,.6);
+}
+.map-pin-label-top { bottom: 100%; margin-bottom: 6px; }
+.map-pin-label-bottom { top: 100%; margin-top: 6px; }
+
+.reach-wave {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border-radius: 50%;
+  background: radial-gradient(circle, transparent 52%, rgba(224,62,45,.65) 60%, transparent 74%);
+  animation: reach-wave 3s cubic-bezier(.25,0,.4,1) infinite;
+  pointer-events: none;
+}
+.reach-wave:nth-child(2) { animation-delay: 1s; }
+.reach-wave:nth-child(3) { animation-delay: 2s; }
+
+@keyframes reach-wave {
+  0% { transform: scale(.6); opacity: .95; }
+  100% { transform: scale(8); opacity: 0; }
+}
+
 .contact {
   padding: 110px max(24px, calc((100vw - 1160px) / 2));
   display: grid;

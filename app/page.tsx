@@ -9,6 +9,26 @@ import { useState } from "react";
 // this site is exported for floresnexus.cards/JCP.
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
+// Service-area markers, positioned as a fixed pixel offset from the map
+// center rather than with a live map instance. The previous MapLibre GL
+// map rendered blank/gray on mobile (WebGL/worker loading is fragile), so
+// this overlays plain CSS dots on the Google Maps iframe below instead —
+// no WebGL, no worker, nothing that can fail to load. The offsets are
+// precomputed Web Mercator pixel deltas (relative to the iframe's center
+// query "26.51,-81.86" at its z=9) and are constant regardless of the
+// container's on-screen size, since they're applied via calc(50% + Npx).
+const serviceHubs = [
+  { id: "port-charlotte", name: "Port Charlotte", dx: -84, dy: -190.2, label: true },
+  { id: "punta-gorda", name: "Punta Gorda", dx: -67.5, dy: -171.1 },
+  { id: "cape-coral", name: "Cape Coral", dx: -32.6, dy: -21.5 },
+  { id: "fort-myers", name: "Fort Myers", dx: -4.5, dy: -53.2 },
+  { id: "lehigh-acres", name: "Lehigh Acres", dx: 85.2, dy: -47.1 },
+  { id: "estero", name: "Estero", dx: 18.5, dy: 30.5 },
+  { id: "bonita-springs", name: "Bonita Springs", dx: 29.6, dy: 69.2 },
+  { id: "naples", name: "Naples · HQ", dx: 23.7, dy: 149.5, hq: true, label: true },
+  { id: "marco-island", name: "Marco Island", dx: 41.9, dy: 230.9, label: true },
+] as const;
+
 const copy = {
   en: {
     nav: ["Services", "Contractors", "Equipment", "About", "Service Area", "Contact"],
@@ -308,6 +328,25 @@ export default function Home() {
             title="Southwest Florida service area map"
             loading="lazy"
           />
+          {serviceHubs.map((hub) => (
+            <div
+              key={hub.id}
+              className="map-marker"
+              style={{ left: `calc(50% + ${hub.dx}px)`, top: `calc(50% + ${hub.dy}px)` }}
+            >
+              {hub.hq && (
+                <>
+                  <span className="reach-wave" />
+                  <span className="reach-wave" />
+                  <span className="reach-wave" />
+                </>
+              )}
+              <span className={hub.hq ? "map-pin map-pin-hq" : "map-pin"} />
+              {hub.label && (
+                <span className={`map-pin-label map-pin-label-${hub.hq ? "bottom" : "top"}`}>{hub.name}</span>
+              )}
+            </div>
+          ))}
           <strong className="florida-map-watermark" aria-hidden="true">SWFL</strong>
         </div>
       </section>
