@@ -3,7 +3,6 @@
 export const dynamic = "force-static";
 
 import { useState } from "react";
-import { ServiceAreaMap } from "@/components/service-area-map";
 
 // Set at build time via NEXT_PUBLIC_BASE_PATH so raw asset URLs (which Next
 // does not rewrite automatically) still resolve under a basePath, e.g. when
@@ -302,7 +301,15 @@ export default function Home() {
             {t.cities.map((city) => <span key={city}>{city}</span>)}
           </div>
         </div>
-        <ServiceAreaMap />
+        <div className="florida-map-frame">
+          <iframe
+            className="florida-map"
+            src="https://maps.google.com/maps?q=26.51,-81.86&z=9&output=embed"
+            title="Southwest Florida service area map"
+            loading="lazy"
+          />
+          <strong className="florida-map-watermark" aria-hidden="true">SWFL</strong>
+        </div>
       </section>
 
       <section className="contact" id="contact">
